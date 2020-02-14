@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Card, Icon, Modal, Button } from 'antd';
 import {connect} from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import './App.css';
 
@@ -23,18 +24,23 @@ function ScreenMyArticles( props ) {
 		setVisible( false );
   };
 
-const NoArticles = () => {
+	const NoArticles = () => {
 		if ( props.myArticles.length === 0 ) { 
 			return( <h1> Vous n'avez pas d'articles sélectionnés </h1> ); 
 		}  
 		else { return null ;}
 	}
 
-
+	const CheckLogin = () => {
+		console.log('token ', props.userToken)
+		if ( typeof(props.userToken) == "undefined" || props.userToken === '') {
+			return <Redirect to='/'/>
+		} else { return null }
+	}
 
   return (
 	 <div>
-			
+		<CheckLogin />
 		<div className="Banner"/>
 
 		<div className="Card">
@@ -107,17 +113,21 @@ const NoArticles = () => {
 
 function mapStateToProps(state) {
   return {
-    myArticles: state.articleWishlist
+    myArticles: state.articleWishlist,
+    userToken: state.tokenuser
   }
 }
+
 
 function mapDispatchToProps(dispatch) {
   return {
     deleteFromWishList: function(i) { 
        dispatch( { type: 'deleteArticle', articleId: i } )
-    }
+    },
+    
   }
 }
+
 
 export default connect(
     mapStateToProps, 

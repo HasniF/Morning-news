@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Card, Icon, Modal, Button } from 'antd';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import './App.css';
 import Nav from './Nav';
@@ -48,9 +49,16 @@ function ScreenArticlesBySource( props ) {
 		setVisible( false );
   };
 
+	const CheckLogin = () => {
+		console.log('token ', props.userToken)
+		if ( typeof(props.userToken) == "undefined" || props.userToken === '') {
+			return <Redirect to='/'/>
+		} else { return null }
+	}
 
   return (
     <div>
+    	<CheckLogin />
    	<Nav />
       <div className="Banner"/>
       <div className="Card" >
@@ -117,6 +125,12 @@ function ScreenArticlesBySource( props ) {
 }
 
 
+function mapStateToProps(state) {
+  return {
+    userToken: state.tokenuser
+  }
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     addToWishList: function(articleObj) { 
@@ -126,7 +140,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-    null, 
+    mapStateToProps, 
     mapDispatchToProps
 )( ScreenArticlesBySource );
 

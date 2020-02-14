@@ -8,7 +8,7 @@ export default function(tokenuser = '', action) {
 	
 	else if(action.type === 'deleteLogin') {
 	
-	
+		return ''
 	} 
 	
 	else {

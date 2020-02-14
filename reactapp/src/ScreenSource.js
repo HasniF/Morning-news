@@ -12,8 +12,6 @@ import './App.css';
 const APIkey = '920fe1871ec5410289dba3174398da12';
 
 
-
-
 function ScreenSource(props) {
 
 
@@ -22,7 +20,8 @@ function ScreenSource(props) {
 
 
 	const CheckLogin = () => {
-		if ( props.userToken === '') {
+		console.log('token ', props.userToken)
+		if ( typeof(props.userToken) == "undefined" || props.userToken === '' ) {
 			return <Redirect to='/'/>
 		} else { return null }
 	}
