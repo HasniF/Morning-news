@@ -17,7 +17,10 @@ export default function(articleList = [], action) {
 		articleObj.splice(found,1);
 
 		return articleObj ;
-	} 
+	}else if(action.type === "resetwishlist"){
+		var wishlist = action.wishLish;
+		return wishlist;
+	}
 	else {
 		return articleList ;
 	} 

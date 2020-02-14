@@ -92,8 +92,11 @@ router.post("/wishlist", async function(req,res,next){
 })
 
 router.get("/article", async function(req,res,next){
-	
-	res.json({success: true, UserModel});
+	var utilisateur = await UserModel.findOne({ token: req.query.token });
+	var wishlist = utilisateur.wishlist;
+	console.log("ma wish wish", wishlist);
+
+	res.json({success: true, wishlist});
 })
 
 router.post('/save-language', async function(req, res, next) {

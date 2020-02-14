@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, Icon, Modal, Button } from 'antd';
 import {connect} from 'react-redux';
 import { Redirect } from 'react-router-dom';
@@ -39,7 +39,17 @@ function ScreenMyArticles( props ) {
 
 		} else { return null }
 	}
-	
+
+useEffect( ()=>{
+	const a = async function (){
+		var back = await fetch(`/article?token=${props.userToken}`)
+		var response = await back.json(); 
+		console.log("Ma reponse",response);
+		props.resetwishlist(response.wishlist);
+	}
+	a();
+},[props.userToken]);
+
   return (
 	 <div>
 		<CheckLogin />
@@ -61,13 +71,13 @@ function ScreenMyArticles( props ) {
 						cover={
 							<img
 								 alt="example"
-								 src={article.urlToImage}
+								 src={article.image}
 							/>
 						}
 						actions={[
 							<Icon type="read" key="ellipsis2" 
 								onClick={ () => showModal( 
-					       		{title: article.title, source: article.source.name, content: article.content } 
+					       		{titre: article.titre, contenu: article.contenu } 
 					       	) } 
 					       />,
 							<Icon type="delete" key="ellipsis" onClick={ () => props.deleteFromWishList( article.id ) }/>	
@@ -75,7 +85,7 @@ function ScreenMyArticles( props ) {
 					>
 					  
 						<Meta
-						  title={article.title}
+						  title={article.titre}
 						  description={article.description}
 						/>
 
@@ -93,8 +103,8 @@ function ScreenMyArticles( props ) {
 						]}
 					 >
 						<Meta 
-						  title={articleModal.title}
-						  description={articleModal.content}
+						  title={articleModal.titre}
+						  description={articleModal.contenu}
 						/>
 						
 					</Modal>
@@ -126,11 +136,11 @@ function mapDispatchToProps(dispatch) {
     deleteFromWishList: function(i) { 
        dispatch( { type: 'deleteArticle', articleId: i } )
     },
-    
+    resetwishlist: function(tabArticle){
+		dispatch({type: "resetwishlist", wishLish : tabArticle })
+	}
   }
 }
-
-
 export default connect(
     mapStateToProps, 
     mapDispatchToProps
