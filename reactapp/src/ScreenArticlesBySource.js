@@ -31,7 +31,7 @@ function ScreenArticlesBySource( props ) {
 			
 			if(response.status === 'ok'){			
 				articles = response.articles.map( element => {
-					return {id: Math.round( Math.random()*10000 ) , ...element};
+					return { id: Math.round( Math.random()*10000 ) , ...element };
 				})
 				setArticles( articles )
 			}
