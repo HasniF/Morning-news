@@ -9,11 +9,6 @@ const UserModel = require('../models/users');
 
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
-
-
 router.post('/sign-up', async function(req, res, next) {
 	
 	if (req.body.name && req.body.email && req.body.password) {
@@ -35,7 +30,8 @@ router.post('/sign-up', async function(req, res, next) {
 			email: req.body.email,
 			password: encryptPassword,
 			salt: saltuser,
-			token: tokenuser
+			token: tokenuser,
+			wishlist:[],
 		} );	
 		
 		let userSaved = await userObj.save(); //var movieSaved =  pas besoin de sauver une variable
@@ -49,14 +45,12 @@ router.post('/sign-up', async function(req, res, next) {
 	}
 });
 
-
-
-
 router.post('/sign-in', async function(req, res, next) {
 	
 	if (req.body.email && req.body.password) {
 		
 		let userObj = await UserModel.findOne({ email: req.body.email });
+		console.log("mon Utilisateur est :", userObj);
 		let hash = SHA256(req.body.password + userObj.salt).toString(encBase64);
    
 		if( userObj ) {
@@ -80,6 +74,19 @@ router.post('/sign-in', async function(req, res, next) {
 		res.json({ success: false , error: 'Remplissez vos champs de saisie' });
 	}
 });
+
+router.post("/wishlist", async function(req,res,next){
+
+	var Mywishlist = [{
+		idArticle : req.body.id,
+		image : req.body.image,
+		titre : req.body.titre,
+		description : req.body.description,
+		contenu : req.body.contenu,
+	}]
+	
+	res.json({success: true, UserModel})
+})
 
 
 router.post('/save-language', async function(req, res, next) {

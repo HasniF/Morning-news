@@ -20,6 +20,7 @@ function ScreenArticlesBySource( props ) {
   const [ articles, setArticles ] = useState([]);
   const [ visible, setVisible ] = useState(false);
   const [ articleModal, setArticleModal ] = useState({});
+
   
 
   useEffect( () => {
@@ -56,6 +57,17 @@ function ScreenArticlesBySource( props ) {
 		} else { return null }
 	}
 
+
+var myWishlist = async (article) =>{
+	props.addToWishList(article);
+	var back = await fetch('/wishlist',{
+		method : "POST",
+		headers: {'Content-Type':'application/x-www-form-urlencoded'},
+		body: `idArticle=${article.id}&image=${article.urlToImage}&titre=${article.title}&description=${article.description}&contenu=${article.content}`,
+	})
+	var response = back.json();
+	console.log("ma card que je clique",response); 
+}
   return (
     <div>
     	<CheckLogin />
@@ -85,7 +97,7 @@ function ScreenArticlesBySource( props ) {
 				          	onClick={ () => showModal( 
 				          		{title: article.title, source: article.source.name, content: article.content } 
 				          	) } />,
-				          <Icon type="like" key="ellipsis" onClick={ () => props.addToWishList( article ) }/>
+				          <Icon type="like" key="ellipsis" onClick={ () => myWishlist( article )}/>
 				      ]}
 				  	>
 						<Meta

@@ -22,11 +22,14 @@ function ScreenSource(props) {
 	
 	console.log( 'token ', props.tokenuser )
 
-	const CheckLogin = () => {
-		if ( props.tokenuser === '' ) {
-			return <Redirect to='/'/>
-		} else { return null }
-	}
+
+  const CheckLogin = () => {
+	console.log( 'token ', props.userToken )
+
+	if ( props.userToken === '' ) {
+		return <Redirect to='/'/>
+	} else { return null }
+}
 	
 	const fetchSources = async function (lang = 'fr', country='fr' ) {
 		let urlRequestNews = `https://newsapi.org/v2/sources?country=${country}&language=${lang}&apiKey=${APIkey}`;

@@ -36,9 +36,10 @@ function ScreenMyArticles( props ) {
 	
 		if ( props.userToken === '' ) {
 			return <Redirect to='/'/>
+
 		} else { return null }
 	}
-
+	
   return (
 	 <div>
 		<CheckLogin />
