@@ -28,7 +28,6 @@ function ScreenArticlesBySource( props ) {
 			let urlRequestNews = `https://newsapi.org/v2/everything?sources=${props.match.params.id}&from=${yesterday}&apiKey=${APIkey}`;
 			let articles = await fetch( urlRequestNews );
 			let response = await articles.json();
-			
 			if(response.status === 'ok'){			
 				articles = response.articles.map( element => {
 					return {id: Math.round( Math.random()*10000 ) , ...element};
