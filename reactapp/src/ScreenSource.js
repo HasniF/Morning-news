@@ -19,12 +19,9 @@ function ScreenSource(props) {
 
   const [ sourceList, setSourceList ] = useState([]);
   const [ languageCountry, setLanguageCountry ] = useState({});
-	
-	console.log( 'token ', props.tokenuser )
 
 
   const CheckLogin = () => {
-	console.log( 'token ', props.userToken )
 
 	if ( props.userToken === '' ) {
 		return <Redirect to='/'/>
@@ -41,7 +38,7 @@ function ScreenSource(props) {
 	}
 	
 	const saveUserLang = async function ( dataLang ) {
-		console.log( 'here ', props.tokenuser )
+		console.log( 'here save UserLang ', props.tokenuser )
 		let options = {
 			method: 'POST',
 			headers: {'Content-Type':'application/x-www-form-urlencoded'},
@@ -51,15 +48,26 @@ function ScreenSource(props) {
 		let srx = await fetch( '/save-language', options );
 		let response = await srx.json();
 		
-		if(response.status === 'ok'){
+		if(response.success){
 			setLanguageCountry({ lang: dataLang.lang, country: dataLang.country })
 		}
 	}
 	
-
+	const fetchLang = async function ( tokenStr ) {
+		console.log( 'here fetch langue ', props.tokenuser )
+		
+		let srx = await fetch( `/get-language?token=${tokenStr}` );
+		let response = await srx.json();
+		
+		if(response.success){
+			setLanguageCountry({ lang: response.languageSettings.lang, country: response.languageSettings.country })
+		}
+	}
+	
+	console.log('languageCountry ', languageCountry);
   useEffect( () => {
-		fetchSources();
-	}, [] );
+  		fetchLang( props.tokenuser );
+	}, [props.tokenuser] );
 	
 
   useEffect( () => {
