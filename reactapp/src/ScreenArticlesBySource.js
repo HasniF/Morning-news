@@ -58,16 +58,17 @@ function ScreenArticlesBySource( props ) {
 	}
 
 
-var myWishlist = async (article) =>{
-	props.addToWishList(article);
-	console.log("ma card que je clique",article)
-	var back = await fetch('/wishlist',{
-		method : "POST",
-		headers: {'Content-Type':'application/x-www-form-urlencoded'},
-		body: `idArticle=${article.id}&image=${article.urlToImage}&titre=${article.title}&description=${article.description}&contenu=${article.content}&token=${props.userToken}`,
-	})
-	var response = back.json(); 
-}
+	var myWishlist = async (article) =>{
+		props.addToWishList(article);
+		console.log("ma card que je clique",article)
+		var back = await fetch('/wishlist',{
+			method : "POST",
+			headers: {'Content-Type':'application/x-www-form-urlencoded'},
+			body: `idArticle=${article.id}&image=${article.urlToImage}&titre=${article.title}&description=${article.description}&contenu=${article.content}&token=${props.userToken}`,
+		})
+		//var response = back.json(); 
+	}
+
   return (
     <div>
     	<CheckLogin />
