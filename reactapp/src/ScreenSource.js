@@ -19,12 +19,13 @@ function ScreenSource(props) {
   const [ languageCountry, setLanguageCountry ] = useState({});
 
 
-	const CheckLogin = () => {
-		console.log('token ', props.userToken)
-		if ( typeof(props.userToken) == "undefined" || props.userToken === '' ) {
-			return <Redirect to='/'/>
-		} else { return null }
-	}
+  const CheckLogin = () => {
+	console.log( 'token ', props.userToken )
+
+	if ( props.userToken === '' ) {
+		return <Redirect to='/'/>
+	} else { return null }
+}
 	
 	async function fetchSources(lang = 'fr', country='fr' ) {
 		let urlRequestNews = `https://newsapi.org/v2/sources?country=${country}&language=${lang}&apiKey=${APIkey}`;
