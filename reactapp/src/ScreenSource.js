@@ -12,21 +12,23 @@ import './App.css';
 const APIkey = '920fe1871ec5410289dba3174398da12';
 
 
+
+
 function ScreenSource(props) {
 
 
   const [ sourceList, setSourceList ] = useState([]);
   const [ languageCountry, setLanguageCountry ] = useState({});
-
+	
+	console.log( 'token ', props.tokenuser )
 
 	const CheckLogin = () => {
-		console.log('token ', props.userToken)
-		if ( typeof(props.userToken) == "undefined" || props.userToken === '' ) {
+		if ( props.tokenuser === '' ) {
 			return <Redirect to='/'/>
 		} else { return null }
 	}
 	
-	async function fetchSources(lang = 'fr', country='fr' ) {
+	const fetchSources = async function (lang = 'fr', country='fr' ) {
 		let urlRequestNews = `https://newsapi.org/v2/sources?country=${country}&language=${lang}&apiKey=${APIkey}`;
 		let sources = await fetch( urlRequestNews );
 		let response = await sources.json();
@@ -34,6 +36,23 @@ function ScreenSource(props) {
 			setSourceList( response.sources )
 		}
 	}
+	
+	const saveUserLang = async function ( dataLang ) {
+		console.log( 'here ', props.tokenuser )
+		let options = {
+			method: 'POST',
+			headers: {'Content-Type':'application/x-www-form-urlencoded'},
+			body: `lang=${dataLang.lang}&country=${dataLang.country}&token=${props.tokenuser}`
+		};
+		
+		let srx = await fetch( '/save-language', options );
+		let response = await srx.json();
+		
+		if(response.status === 'ok'){
+			setLanguageCountry({ lang: dataLang.lang, country: dataLang.country })
+		}
+	}
+	
 
   useEffect( () => {
 		fetchSources();
@@ -51,14 +70,14 @@ function ScreenSource(props) {
 		<div className="Banner" style={{display:'flex', justifyContent:'center', alignItems:'center'}} >
 			
 			<Avatar src={`/images/flag_FR.png`} style={{margin:'5px', cursor:'pointer'}} 
-				onClick={ ()=>setLanguageCountry({ lang: 'fr', country:'fr' }) } />
+				onClick={ () => saveUserLang( { lang: 'fr', country:'fr' } ) } />
 				
 			<Avatar src={`/images/flag_UK.png`} style={{margin:'5px', cursor:'pointer'}} 
-				onClick={ ()=>setLanguageCountry({ lang: 'en', country:'gb' }) } />
+				onClick={ () => saveUserLang({ lang: 'en', country:'gb' }) } />
 			
 			<Avatar src={`https://upload.wikimedia.org/wikipedia/commons/9/9a/Flag_of_Spain.svg`} 
 				style={{margin:'5px', cursor:'pointer'}} 
-				onClick={ ()=>setLanguageCountry({ lang: 'es', country:'es' }) } />
+				onClick={ () => saveUserLang({ lang: 'es', country:'es' }) } />
 				
 		</div>
 
@@ -91,7 +110,7 @@ function ScreenSource(props) {
 
 function mapStateToProps(state) {
   return {
-    userToken: state.tokenuser
+    tokenuser: state.tokenuser
   }
 }
 

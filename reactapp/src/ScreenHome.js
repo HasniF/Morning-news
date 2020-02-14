@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {  Redirect } from 'react-router-dom';
 import { Input, Button } from 'antd';
 import {connect} from 'react-redux';
@@ -34,12 +34,14 @@ function ScreenHome(props) {
 		
 		if ( response.success ) {
 			props.login( response.userToken );
-			setIsLogin(true);
 		} else {
-			setIsLogin(false);
 			setError( response.error )
 		}
+		console.log('signin ', response.userToken )
+		
+		setIsLogin( response.success );
   	}
+
   
   
   
@@ -54,19 +56,23 @@ function ScreenHome(props) {
 		let response = await sources.json();
 		console.log('signup response ',response)
 		
-		if ( response.success ) { 
-			props.login( response.userToken );
-			setIsLogin(true);
+		if ( response.success ) {
+			console.log('signup response ', response.userToken)
+			props.login( response.userToken );	
 		} else {
-			setIsLogin(false);
 			setError( response.error )
 		}
+		
+		setIsLogin( response.success );
   	}
   	
+	
+	
 	if ( isLogin ) { 
-    	return( <Redirect to="/sources" /> )  
-   }
-
+		console.log('islogin condition ', isLogin, props.token )
+	 	return( <Redirect to="/sources" /> )  
+	}
+	
   
   
   	const ShowError = () => {
@@ -124,11 +130,12 @@ function ScreenHome(props) {
 
 
 
-//function mapStateToProps(state) {
-//  return {
-//    userToken: state.loginToken
-//  }
-//}
+
+function mapStateToProps(state) {
+  return {
+    token: state.tokenuser
+  }
+}
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -139,7 +146,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-    null, 
+    mapStateToProps, 
     mapDispatchToProps
 )( ScreenHome );
 

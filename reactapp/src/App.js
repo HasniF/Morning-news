@@ -2,7 +2,7 @@ import React from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 import articleWishlist from './reducers/article.reducer';
-import loginToken from './reducers/token.reducer'
+import tokenuser from './reducers/token.reducer'
 
 import {Provider} from 'react-redux';
 import {createStore, combineReducers}  from 'redux';
@@ -14,7 +14,7 @@ import ScreenSource from './ScreenSource';
 import ScreenArticlesBySource from './ScreenArticlesBySource';
 import ScreenMyArticles from './ScreenMyArticles';
 
-const store = createStore( combineReducers( { loginToken, articleWishlist }) );
+const store = createStore( combineReducers( { tokenuser, articleWishlist }) );
 
 
 

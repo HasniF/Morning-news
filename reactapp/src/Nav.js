@@ -7,7 +7,7 @@ import './App.css';
 
 
 
-function Nav() {
+function Nav(props) {
 
   return (
     <nav >
@@ -27,7 +27,7 @@ function Nav() {
 
         <Menu.Item key="logout">
          <Link to='/'>
-          <Icon type="logout" />Logout
+          <Icon type="logout" onClick={()=>props.logout()}/>Logout
          </Link>
         </Menu.Item>
 
@@ -35,6 +35,8 @@ function Nav() {
     </nav>
   );
 }
+
+
 
 function mapDispatchToProps(dispatch) {
   return {

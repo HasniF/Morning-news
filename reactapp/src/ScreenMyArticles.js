@@ -32,8 +32,9 @@ function ScreenMyArticles( props ) {
 	}
 
 	const CheckLogin = () => {
-		console.log('token ', props.userToken)
-		if ( typeof(props.userToken) == "undefined" || props.userToken === '') {
+		console.log( 'token ', props.userToken )
+	
+		if ( props.userToken === '' ) {
 			return <Redirect to='/'/>
 		} else { return null }
 	}

@@ -82,6 +82,42 @@ router.post('/sign-in', async function(req, res, next) {
 });
 
 
+router.post('/save-language', async function(req, res, next) {
+	
+	console.log(req.body.token)
+	if ( req.body.lang && req.body.country && req.body.token ) {
+	
+//		let userObj = await UserModel.findOne({ email: req.body.email });
+//		
+//		if( userObj ) {
+//			res.json({ success: false , error: 'Email déjà enregistré' });
+//			return 0;
+//		}
+//		
+//		let saltuser = uid2(32);
+//		let encryptPassword = SHA256(req.body.password + saltuser).toString(encBase64);
+//		
+//		let tokenuser = uid2(32);
+//		
+//		userObj = new UserModel ( {
+//			name: req.body.name,
+//			email: req.body.email,
+//			password: encryptPassword,
+//			salt: saltuser,
+//			token: tokenuser
+//		} );	
+//		
+//		let userSaved = await userObj.save(); //var movieSaved =  pas besoin de sauver une variable
+//		
+//		if(userSaved) { success = true } else { success = { success: false , error: 'Error au moment de la sauvegarde' } }
+//		
+//		res.json({ success, userToken: userSaved.token });
+//		
+//	} else {
+//		res.json({ success: false , error: 'Remplissez vos champs de saisie' });
+	}
+});
+
 module.exports = router;
 
 
