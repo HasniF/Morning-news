@@ -27,6 +27,7 @@ router.post('/sign-up', async function(req, res, next) {
 		
 		userObj = new UserModel ( {
 			name: req.body.name,
+			langue : JSON.stringify( {lang:'fr', country:'fr'} ),
 			email: req.body.email,
 			password: encryptPassword,
 			salt: saltuser,
@@ -97,37 +98,32 @@ router.get("/article", async function(req,res,next){
 
 router.post('/save-language', async function(req, res, next) {
 	
-	console.log(req.body.token)
-	if ( req.body.lang && req.body.country && req.body.token ) {
 	
-//		let userObj = await UserModel.findOne({ email: req.body.email });
-//		
-//		if( userObj ) {
-//			res.json({ success: false , error: 'Email déjà enregistré' });
-//			return 0;
-//		}
-//		
-//		let saltuser = uid2(32);
-//		let encryptPassword = SHA256(req.body.password + saltuser).toString(encBase64);
-//		
-//		let tokenuser = uid2(32);
-//		
-//		userObj = new UserModel ( {
-//			name: req.body.name,
-//			email: req.body.email,
-//			password: encryptPassword,
-//			salt: saltuser,
-//			token: tokenuser
-//		} );	
-//		
-//		let userSaved = await userObj.save(); //var movieSaved =  pas besoin de sauver une variable
-//		
-//		if(userSaved) { success = true } else { success = { success: false , error: 'Error au moment de la sauvegarde' } }
-//		
-//		res.json({ success, userToken: userSaved.token });
-//		
-//	} else {
-//		res.json({ success: false , error: 'Remplissez vos champs de saisie' });
+	if ( req.body.lang && req.body.country && req.body.token ) {
+		userObj = await UserModel.updateOne( 
+			{ token: req.body.token }, 
+			{ langue: JSON.stringify( {lang: req.body.lang,country: req.body.country} ) } 
+		);
+		
+		res.json({ success: true });
+				
+	} else {
+		res.json({ success: false, error: 'Error survenu en enregistrant votre langue par défaut' });
+	}
+});
+
+
+router.get('/get-language', async function(req, res, next) {
+	
+	if ( req.query.token ) {
+		let userObj = await UserModel.findOne( { token: req.query.token } );
+		console.log(userObj)
+		let languageSettings = JSON.parse(userObj.langue) ;
+		
+		res.json({ success: true, languageSettings: languageSettings });
+				
+	} else {
+		res.json({ success: false, error: 'Error survenu en enregistrant votre langue par défaut' });
 	}
 });
 
