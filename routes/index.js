@@ -50,7 +50,6 @@ router.post('/sign-in', async function(req, res, next) {
 	if (req.body.email && req.body.password) {
 		
 		let userObj = await UserModel.findOne({ email: req.body.email });
-		console.log("mon Utilisateur est :", userObj);
 		let hash = SHA256(req.body.password + userObj.salt).toString(encBase64);
    
 		if( userObj ) {
@@ -77,17 +76,24 @@ router.post('/sign-in', async function(req, res, next) {
 
 router.post("/wishlist", async function(req,res,next){
 
-	var Mywishlist = [{
+	var wishlistVie = {
 		idArticle : req.body.id,
 		image : req.body.image,
 		titre : req.body.titre,
 		description : req.body.description,
 		contenu : req.body.contenu,
-	}]
+	}
 	
-	res.json({success: true, UserModel})
+	var Mywishlist = await UserModel.findOne({ token: req.body.token });
+	Mywishlist.wishlist.push(wishlistVie);
+	 await Mywishlist.save();
+	res.json({success: true, Mywishlist})
 })
 
+router.get("/article", async function(req,res,next){
+	
+	res.json({success: true, UserModel});
+})
 
 router.post('/save-language', async function(req, res, next) {
 	

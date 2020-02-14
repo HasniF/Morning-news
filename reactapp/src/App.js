@@ -15,7 +15,7 @@ import ScreenArticlesBySource from './ScreenArticlesBySource';
 import ScreenMyArticles from './ScreenMyArticles';
 
 
-const store = createStore( combineReducers( { loginToken, articleWishlist }),window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() );
+const store = createStore( combineReducers( { tokenuser, articleWishlist }),window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() );
 
 
 
