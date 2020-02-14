@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import {Menu, Icon} from 'antd'
+import {connect} from 'react-redux';
 
 import './App.css';
 
@@ -35,4 +36,17 @@ function Nav() {
   );
 }
 
-export default Nav;
+function mapDispatchToProps(dispatch) {
+  return {
+    logout: function() { 
+       dispatch( { type: 'deleteLogin' } )
+    }
+  }
+}
+
+export default connect(
+    null, 
+    mapDispatchToProps
+)( Nav );
+
+
