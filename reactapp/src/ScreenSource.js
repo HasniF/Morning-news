@@ -53,20 +53,24 @@ function ScreenSource(props) {
 		}
 	}
 	
-	const fetchLang = async function ( tokenStr ) {
-		console.log( 'here fetch langue ', props.tokenuser )
-		
-		let srx = await fetch( `/get-language?token=${tokenStr}` );
-		let response = await srx.json();
-		
-		if(response.success){
-			setLanguageCountry({ lang: response.languageSettings.lang, country: response.languageSettings.country })
-		}
-	}
+
 	
-	console.log('languageCountry ', languageCountry);
+
   useEffect( () => {
+  
+  		const fetchLang = async function ( tokenStr ) {
+			console.log( 'here fetch langue ', props.tokenuser )
+			
+			let srx = await fetch( `/get-language?token=${tokenStr}` );
+			let response = await srx.json();
+			
+			if(response.success){
+				setLanguageCountry({ lang: response.languageSettings.lang, country: response.languageSettings.country })
+			}
+		}
+	  
   		fetchLang( props.tokenuser );
+  		
 	}, [props.tokenuser] );
 	
 
